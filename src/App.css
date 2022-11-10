@@ -1,0 +1,31 @@
+.App {
+  text-align: center;
+  background: white;
+  min-height: 100vh;
+}
+
+h1{
+  margin:0;
+}
+
+/*
+.App-header {
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  background: #DCD8D3;
+  width:50vw;
+  height:30vw;
+  margin:10%;
+}
+
+#screenInnerCutOut{
+  width: 90%;
+  height: 80%;
+  position: relative;
+  background: #BBB8A3;
+  left: 5%;
+  top: 10%;
+  border-radius: 30px;
+}
+*/
+
