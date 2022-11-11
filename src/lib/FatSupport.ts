@@ -15,12 +15,16 @@ export function littleEndianToNumber(byteArray : any)
     },0);
 }
 
+export const FAT_UNDEFINED_DATE = new Date(0,0,0,0,0,0);
 /*
 date - year,month,day
 time - hours-minutes-(seconds in 2 second chunks)
 seconds - 0-2 seconds  in 10 millisecond incriments
 */
 export function generateDate(date:number,time:number, seconds:number){
+    if(date == 0 && time == 0 && seconds == 0){
+      return FAT_UNDEFINED_DATE;
+    }
 
     let year = 1980 + ((date & 0xf000) >> 12);
     let month = ((date & 0b11110000) >> 4) % 13;

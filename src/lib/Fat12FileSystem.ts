@@ -1,6 +1,7 @@
 import {FatReservedSection} from "./FatRerveredSection"
 import { FatTable } from "./FatTable";
 import { FatFiles } from "./FatFiles";
+import { memcpySplice } from "./memoryHelpers";
 
 export class Fat12FileSystem{
     constructor(buffer : Uint8Array){
@@ -44,8 +45,96 @@ export class Fat12FileSystem{
         //this.rootDir.forEach((dir)=>{dir.print()})
         
     }
+
+    deleteFatFile(file:FatFiles)
+    {
+        let clusterSize = this.rSection.numBytesCluster();
+        let clusterIndex = file.startCluster;
+        for(let i =0; i < (Math.floor(file.size / clusterSize) + 1); i++)
+        {
+            console.log("clearing index " + clusterIndex)
+            //clear the data from the cluster
+            let startClusterByte = clusterSize * (clusterIndex - 2);
+            for(let i =0; i < clusterSize; i++){
+              this.dataSection[startClusterByte + i] = 0;
+            }
+            //clear previous fat
+            let prevIndex = clusterIndex;
+            clusterIndex = this.fTables[0].a[clusterIndex];
+            for(let i =0; i < this.fTables.length; i++){
+              this.fTables[i].a[prevIndex] = 0;
+            }
+        }
+        this.rootDir = this.rootDir.filter((f:FatFiles)=>{
+          return f.name !== file.name
+        });
+    }
+
+    addFile(fileName:string,data:Uint8Array, date:Date){
+      //remove file if it already exists
+      console.log(data)
+      //figure out how much free space there is
+      if(data.length > this.calculateFreeSpace()){
+        console.warn("File is to large")
+      }
+
+      let firstCluster = this.fTables[0].allocateFirstFreeSector();
+      console.info("first cluster " + firstCluster);  
+      let clusterWrighten = firstCluster;
+      let clusterSize = this.rSection.numBytesCluster();
+      for(let writtenData = 0; writtenData < data.length; writtenData += this.rSection.numBytesCluster())
+      {
+        let nextClusterToWrite = 0;
+        let sizeToWright = clusterSize
+        if(writtenData + clusterSize < data.length){
+          nextClusterToWrite = this.fTables[0].allocateFirstFreeSector();
+          this.fTables[0].a[clusterWrighten] = nextClusterToWrite;
+        }else{
+          sizeToWright = data.length - writtenData;
+        }
+        
+        let startClusterByte = clusterSize * (nextClusterToWrite - 2);
+        memcpySplice(this.dataSection,
+                     startClusterByte,
+                     data,
+                     writtenData,
+                     sizeToWright);
+        clusterWrighten = nextClusterToWrite
+        
+      }
+      //add the directory here
+
+      let newFile = new FatFiles();
+
+      let splitName = fileName.split(".")
+
+      newFile.name = splitName[0].slice(0,5);
+      newFile.ext = "";
+      if(splitName[1].length >0 ){
+        newFile.ext = splitName[1].slice(0,3);
+      }
+      
+      newFile.size = data.length;
+      newFile.startCluster = firstCluster;
+      this.rootDir.push(newFile);
+
+    }
+    calculateUsedSpace(){
+      let dataSectionUsed = this.fTables[0].clusterUsed()  * this.rSection.bpb_secPerClus * this.rSection.bpb_bytesPerSector;
+
+      return  dataSectionUsed + this.rSection.numBytesFatTable() + this.rSection.bpb_rootEntCnt * 32 + 512;
+    }
+
+    calculateFreeSpace(){
+      let totalSize = this.rSection.numBytesDisk();
+      let usedData = this.calculateUsedSpace();
+
+      return totalSize - usedData;
+    }
+
+
     rSection = new FatReservedSection([]);;
-    fTables : Array<FatTable> = [];
+    fTables : Array<FatTable> = []; //probably create something that houses this as one thing
     rootDir : Array<FatFiles> = [];
-    dataSection  = new Uint8Array(0)  
+    dataSection  = new Uint8Array(0)
   }

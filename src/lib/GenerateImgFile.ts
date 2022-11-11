@@ -1,27 +1,7 @@
 import { Fat12FileSystem } from "./Fat12FileSystem";
 import { FatReservedSection } from "./FatRerveredSection";
+import { memcpy, memcpyString,memcpyNumber } from "./memoryHelpers";
 
-function memcpy (_src : Uint8Array, srcOffset: number, _dst:Uint8Array) {
-    for(let i =0; i < _dst.length;i++)
-    {
-        _src[i + srcOffset] = _dst[i];
-    }
-}
-
-function memcpyString(_src : Uint8Array, srcOffset: number, _dst:String) {
-    for(let i =0; i < _dst.length;i++)
-    {
-        _src[i + srcOffset] = _dst.charCodeAt(i);
-    }
-}
-function memcpyNumber(_dst : Uint8Array, dstOffset: number, num:number, size:number) {
-    let data = new Uint8Array(new Int32Array([num]).buffer)
-    
-    for(let i =0; i < size;i++)
-    {
-        _dst[i + dstOffset] = data[i];
-    }
-}
 
 export function ConvertReserveSectionBinary(rs:FatReservedSection,a:Uint8Array){
     memcpy(a,0,rs.bs_jmpBoot);
@@ -49,8 +29,6 @@ export function ConvertReserveSectionBinary(rs:FatReservedSection,a:Uint8Array){
     memcpy(a,62,rs.bs_cootCode);
     console.log(rs.bs_bootSign)
     memcpy(a,510,rs.bs_bootSign);
-
-    console.log(a.slice(0,512));
 }
 
 export function GenerateImgFile(fat12System:Fat12FileSystem){

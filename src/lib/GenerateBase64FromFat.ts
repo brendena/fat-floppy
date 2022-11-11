@@ -22,12 +22,10 @@ export function GetSigleFatFile(
     data : Uint8Array,
     clusterSize : number )
 {
-    console.log("~~~~~~~~~~~~~~")
     let returnData = new Uint8Array();
     let clusterIndex = fatFile.startCluster;
     for(let i =0; i < (Math.floor(fatFile.size / clusterSize)); i++)
     {
-        console.log("cluster Index " + clusterIndex);
         let startClusterByte = clusterSize * (clusterIndex - 2);
         returnData = _appendBuffer(returnData, data.slice(startClusterByte, startClusterByte + clusterSize));
 
@@ -36,10 +34,5 @@ export function GetSigleFatFile(
     //grab the half cluster sizes
     let startClusterByte = clusterSize * (clusterIndex - 2);
     returnData = _appendBuffer(returnData, data.slice(startClusterByte, startClusterByte + fatFile.size %clusterSize));
-
-
-    console.log(fatFile.size);
-    console.log("return size " + returnData.length);
-    console.log("-----------------")
     return returnData;
 }

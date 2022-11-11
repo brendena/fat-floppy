@@ -1,10 +1,14 @@
 import {littleEndianToNumber, generateDate, ATTR_VOLUME_ID, U8ToString} from "./FatSupport"
 
 export class FatFiles{
-    constructor(buffer : any){
+    constructor(buffer? : Uint8Array){
+      if(buffer === null ||
+         buffer === undefined){
+        return;
+      }
       if(buffer.length < 32)
       { 
-
+        console.error("fat file is not properly sized")
         return;
       }
       this.name = U8ToString(buffer.slice(0,8));

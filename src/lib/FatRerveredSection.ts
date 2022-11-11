@@ -5,7 +5,7 @@ import {littleEndianToNumber, toHexString, U8ToString} from "./FatSupport"
 //BS  - just boot sector
 export class FatReservedSection{
     constructor(buffer : any){
-        if(buffer.length == 0)
+        if(buffer.length === 0)
         {
           return;
         }
@@ -23,6 +23,7 @@ export class FatReservedSection{
         this.bpb_numFats = buffer[16];
         this.bpb_rootEntCnt = littleEndianToNumber(buffer.slice(17,19));
         this.bpb_totalSec16 = littleEndianToNumber(buffer.slice(19,21));
+        console.log(this.bpb_totalSec16)
         this.bpb_media = buffer[21];
         this.bpb_FATz16 = littleEndianToNumber(buffer.slice(22,24));
         this.bpb_secPerTrack = littleEndianToNumber(buffer.slice(24,26));

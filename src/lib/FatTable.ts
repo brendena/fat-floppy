@@ -17,7 +17,32 @@ export class FatTable{
         this.a.push(firstSec);
         this.a.push(secondSec);
       }
-  
     }
+    clusterUsed(){
+      let usedClusters = this.a.reduce((prev:number,cur:number)=>{
+        return (cur !== 0 )? prev + 1 : prev;
+      },0);
+
+      //Minus 2 becuase of the first don't refer to the data cluster
+      return usedClusters - 2;
+    }
+
+    firstFreeSector(){
+      let ret = 0;
+      for(let i =0; i < this.a.length; i++){
+        if(this.a[i] == 0){
+          ret = i;
+          break;
+        }
+      }
+      return ret;
+    }
+
+    allocateFirstFreeSector(){
+      let freeSector = this.firstFreeSector();
+      this.a[freeSector] = FAT_END_FILE;
+      return freeSector;
+    }
+
     a : Array<number> = []
 }

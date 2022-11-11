@@ -11,8 +11,15 @@ type ActionMap<M extends { [index: string]: any }> = {
         }
   };
   
+
+  type InitialStateType = {
+    fd: Fat12FileSystem[];
+    shoppingCart: number;
+  }
+  
   export enum Types {
     ADD_FAT_IMG = 'ADD_FAT_IMG',
+    MODIFIED_FAT_IMAGE = 'MODIFIED_FAT_IMAGE' 
   }
   
   // Product
@@ -20,6 +27,7 @@ type ActionMap<M extends { [index: string]: any }> = {
 
   type FatDataPayload = {
     [Types.ADD_FAT_IMG] : Fat12FileSystem;
+    [Types.MODIFIED_FAT_IMAGE] : Fat12FileSystem;
   }
   
   export type FatDataActions = ActionMap<FatDataPayload>[keyof ActionMap<FatDataPayload>];
@@ -29,11 +37,10 @@ type ActionMap<M extends { [index: string]: any }> = {
       
       case Types.ADD_FAT_IMG:
         return [
-          ...state,
-          
             action.payload
-          
         ]
+      case Types.MODIFIED_FAT_IMAGE:
+        return [action.payload]
       
       default:
         return state;

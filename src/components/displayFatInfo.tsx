@@ -1,14 +1,16 @@
 import React from 'react';
-import { useFatTableAdd } from '../hooks/useFatTableAdd';
 import { AppContext } from "../context";
 import { GetSigleFatFile } from "../lib/GenerateBase64FromFat";
 import './displayFatInfo.css';
 import { FatFiles } from '../lib/FatFiles';
 import { GenerateImgFile } from '../lib/GenerateImgFile';
+import { FAT_UNDEFINED_DATE } from '../lib/FatSupport';
+import { Types } from "../reducers";
+import { useFatTableAddFile } from '../hooks/useFatTableAdd';
 
 const DisplayFatInfo: React.FC = () => {  
-    const {state} = React.useContext(AppContext);
-    //const generatedDoc = useGenerateFileLinks();
+    const {state, dispatch} = React.useContext(AppContext);
+    let addFile = useFatTableAddFile();
 
 
 
@@ -37,7 +39,11 @@ const DisplayFatInfo: React.FC = () => {
     }
 
     function deleteFile(file:FatFiles){
-        
+        state.fd[0].deleteFatFile(file);
+        dispatch({
+            type: Types.ADD_FAT_IMG,
+            payload : state.fd[0]
+        });
     }
 
     function generateImgFile(){
@@ -45,6 +51,11 @@ const DisplayFatInfo: React.FC = () => {
     }
 
     function fDate(date:Date) {
+        if(date === FAT_UNDEFINED_DATE)
+        {
+            return "NaN"
+        }
+        
         var year = date.getFullYear();
       
         var month = (1 + date.getMonth()).toString();
@@ -55,15 +66,19 @@ const DisplayFatInfo: React.FC = () => {
         
         return month + '/' + day + '/' + year;
     }
+
+    function numberWithCommas(x: number) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     
     
 
     let files = state.fd[0].rootDir;
     return (
         <div>
-            <p>hello world</p>
+            <p>Data used {state.fd[0].calculateUsedSpace()} / {state.fd[0].rSection.numBytesDisk()} B </p>
             <button onClick={generateImgFile}>Generate a bin image</button>
-
+            <input type="file" id="inputImage" onChange={addFile}/>
 
             <table className="styled-table">
                 <thead>
@@ -82,7 +97,7 @@ const DisplayFatInfo: React.FC = () => {
 
                     return <tr key={i}> 
                                 <td>{f.name}.{f.ext}</td>
-                                <td>{f.size}B</td>
+                                <td>{numberWithCommas(f.size)} B</td>
                                 <td>{fDate(f.creationDate)}</td>
                                 <td>{fDate(f.lastAccessDate)}</td>
                                 <td><button onClick={()=>{downloadImage(f)}}>Download</button></td>
