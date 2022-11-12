@@ -23,7 +23,6 @@ async function getFileBuffer(file:FileList){
        file.length > 0)
     {
         //console.log(event.target.files[0])
-        const reader = new FileReader();
         let dataBuffer : any =  await readFileAsync(file[0])
         return new Uint8Array(dataBuffer);
     }

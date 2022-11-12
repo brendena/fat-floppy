@@ -12,6 +12,7 @@ type ActionMap<M extends { [index: string]: any }> = {
   };
   
 
+
   type InitialStateType = {
     fd: Fat12FileSystem[];
     shoppingCart: number;

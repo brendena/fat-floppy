@@ -11,8 +11,8 @@ export class FatFiles{
         console.error("fat file is not properly sized")
         return;
       }
-      this.name = U8ToString(buffer.slice(0,8));
-      this.ext = U8ToString(buffer.slice(8,11));
+      this.name = U8ToString(buffer.slice(0,8)).trim();
+      this.ext = U8ToString(buffer.slice(8,11)).trim();
       this.creationDate = generateDate(
         littleEndianToNumber(buffer.slice(16,18)),
         littleEndianToNumber(buffer.slice(14,16)),

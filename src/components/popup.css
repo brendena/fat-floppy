@@ -1,0 +1,12 @@
+.popup {
+    margin: auto;
+    background: rgb(255, 255, 255);
+    width: 50%;
+    padding: 5px;
+    position:fixed;
+    top:0px;
+    z-index: 100;
+    left: 25%;
+    border:solid;
+    top:15%;
+  }

@@ -26,13 +26,10 @@ const DisplayFatInfo: React.FC = () => {
                 [ fileData ], 
                 {type:'application/type'}
             );
-            console.log(file.name.charCodeAt(5))
-            let fileName = file.name.replace(/\s/g, '');
-            fileName += "." + file.ext
             let downloadLink = document.createElement("a");
             let url = window.URL;
             downloadLink.href = url.createObjectURL(bytesAsBlob);
-            downloadLink.download = fileName;
+            downloadLink.download = file.name + "." + file.ext;
             downloadLink.click();
 
         }
@@ -76,8 +73,8 @@ const DisplayFatInfo: React.FC = () => {
     let files = state.fd[0].rootDir;
     return (
         <div>
-            <p>Data used {state.fd[0].calculateUsedSpace()} / {state.fd[0].rSection.numBytesDisk()} B </p>
             <button onClick={generateImgFile}>Generate a bin image</button>
+            <p>Data used {state.fd[0].calculateUsedSpace()} / {state.fd[0].rSection.numBytesDisk()} B </p>
             <input type="file" id="inputImage" onChange={addFile}/>
 
             <table className="styled-table">

@@ -71,8 +71,24 @@ export class Fat12FileSystem{
     }
 
     addFile(fileName:string,data:Uint8Array, date:Date){
+      let splitName = fileName.split(".")
+      let fileNameNoExtension = splitName[0].slice(0,5);
+      let fileNameExtension = "";
+      if(splitName[1].length > 0){
+        fileNameExtension = splitName[1].slice(0,3);;
+      }
+      
+
       //remove file if it already exists
-      console.log(data)
+      console.log(data);
+      let sameNameFile = this.rootDir.find((element)=>{
+        return element.name === fileNameNoExtension && element.ext === fileNameExtension
+      });
+      if(sameNameFile != null){
+        this.deleteFatFile(sameNameFile);
+      }
+      
+      
       //figure out how much free space there is
       if(data.length > this.calculateFreeSpace()){
         console.warn("File is to large")
@@ -106,13 +122,9 @@ export class Fat12FileSystem{
 
       let newFile = new FatFiles();
 
-      let splitName = fileName.split(".")
-
-      newFile.name = splitName[0].slice(0,5);
-      newFile.ext = "";
-      if(splitName[1].length >0 ){
-        newFile.ext = splitName[1].slice(0,3);
-      }
+      
+      newFile.name = fileNameNoExtension;
+      newFile.ext = fileNameExtension;
       
       newFile.size = data.length;
       newFile.startCluster = firstCluster;
