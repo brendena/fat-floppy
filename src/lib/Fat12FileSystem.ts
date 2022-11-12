@@ -27,8 +27,8 @@ export class Fat12FileSystem{
         }
         //console.log(this.rSection.bpb_rootEntCnt);
         //directory
-        let dirStartPosition = (this.rSection.bpb_numFats * this.rSection.numBytesFatTable()) + this.rSection.bpb_bytesPerSector;
-        //console.log(dirStartPosition)
+        let dirStartPosition = this.rSection.calculateDirOffset();
+        console.log(this.rSection.bpb_rootEntCnt)
         
         for(let i=0; i < this.rSection.bpb_rootEntCnt ; i++){
           let slicePosition = dirStartPosition + i * 32;
@@ -40,7 +40,7 @@ export class Fat12FileSystem{
         }
 
         //grab the data section
-        let dataStartPosition = dirStartPosition + this.rSection.bpb_rootEntCnt * 32;
+        let dataStartPosition = this.rSection.calculateDataSection();
         this.dataSection = buffer.slice(dataStartPosition, buffer.length - dataStartPosition);
         //this.rootDir.forEach((dir)=>{dir.print()})
         
@@ -95,7 +95,6 @@ export class Fat12FileSystem{
       }
 
       let firstCluster = this.fTables[0].allocateFirstFreeSector();
-      console.info("first cluster " + firstCluster);  
       let clusterWrighten = firstCluster;
       let clusterSize = this.rSection.numBytesCluster();
       for(let writtenData = 0; writtenData < data.length; writtenData += this.rSection.numBytesCluster())

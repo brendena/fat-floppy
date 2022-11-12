@@ -13,6 +13,7 @@ export class FatFiles{
       }
       this.name = U8ToString(buffer.slice(0,8)).trim();
       this.ext = U8ToString(buffer.slice(8,11)).trim();
+      this.ntRes = littleEndianToNumber(buffer.slice(11,12));
       this.creationDate = generateDate(
         littleEndianToNumber(buffer.slice(16,18)),
         littleEndianToNumber(buffer.slice(14,16)),

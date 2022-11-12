@@ -19,12 +19,28 @@ export function memcpyString(_src : Uint8Array, srcOffset: number, _dst:String) 
         _src[i + srcOffset] = _dst.charCodeAt(i);
     }
 }
+
+export function memcpyStringPadded(dst : Uint8Array, dstOffset: number, src:String, size: number)
+{
+    memset(dst,dstOffset,0x20,size);
+    memcpyString(dst,dstOffset,src);
+}
+
 export function memcpyNumber(_dst : Uint8Array, dstOffset: number, num:number, size:number) {
     let data = new Uint8Array(new Int32Array([num]).buffer)
     
     for(let i =0; i < size;i++)
     {
         _dst[i + dstOffset] = data[i];
+    }
+}
+
+export function memset(dst: Uint8Array, dstOffset: number, value:number, size: number)
+{
+    for(let i =0; i < size; i++)
+    {
+        dst[dstOffset] = value;
+        dstOffset++; 
     }
 }
 

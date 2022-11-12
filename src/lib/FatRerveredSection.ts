@@ -75,6 +75,13 @@ export class FatReservedSection{
       return this.bpb_totalSec16 * this.bpb_bytesPerSector;
     }
     
+    calculateDirOffset(){
+      return (this.bpb_numFats * this.numBytesFatTable()) + this.bpb_bytesPerSector;
+    }
+
+    calculateDataSection(){
+      return this.calculateDirOffset() + this.bpb_rootEntCnt * 32;
+    }
 
     print(){
         console.log("bs_jmpBoot " + toHexString(this.bs_jmpBoot));
