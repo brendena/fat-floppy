@@ -73,7 +73,7 @@ export function convertDirSection(files:Array<FatFiles>,a:Uint8Array, offset:num
     
 }
 
-export function GenerateImgFile(fat12System:Fat12FileSystem){
+export function GenerateImgFile(fileName:string,fat12System:Fat12FileSystem){
     let rB = new Uint8Array(fat12System.rSection.numBytesDisk());
     ConvertReserveSectionBinary(fat12System.rSection,rB);
     convertFatTableSection(fat12System.fTables, rB);
@@ -95,6 +95,6 @@ export function GenerateImgFile(fat12System:Fat12FileSystem){
     let downloadLink = document.createElement("a");
     let url = window.URL;
     downloadLink.href = url.createObjectURL(bytesAsBlob);
-    downloadLink.download = "generatedImage.img";
+    downloadLink.download = fileName;
     downloadLink.click();
 }

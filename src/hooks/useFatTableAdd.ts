@@ -44,7 +44,10 @@ export function useFatTableAdd (){
             let fat12FileSystem = new Fat12FileSystem(dataBuffer);
             dispatch({
                 type: Types.ADD_FAT_IMG,
-                payload : fat12FileSystem
+                payload : {
+                    name: event.target.files[0].name,
+                    imgs:[fat12FileSystem]
+                }
             });
         }
     }
@@ -61,10 +64,10 @@ export function useFatTableAddFile(){
         if(dataBuffer.byteLength > 0)
         {
             let file = event.target.files[0];
-            state.fd[0].addFile(file.name, dataBuffer, new Date());
+            state.fd.imgs[0].addFile(file.name, dataBuffer, new Date());
             dispatch({
                 type: Types.MODIFIED_FAT_IMAGE,
-                payload : state.fd[0]
+                payload : state.fd.imgs[0]
             });
             
         }

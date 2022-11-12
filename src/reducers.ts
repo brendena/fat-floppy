@@ -11,10 +11,13 @@ type ActionMap<M extends { [index: string]: any }> = {
         }
   };
   
+export type ImgDescriptor = {
+  name : string;
+  imgs : Fat12FileSystem[];
+}
 
-
-  type InitialStateType = {
-    fd: Fat12FileSystem[];
+export type InitialStateType = {
+    fd: ImgDescriptor;
     shoppingCart: number;
   }
   
@@ -27,21 +30,26 @@ type ActionMap<M extends { [index: string]: any }> = {
   
 
   type FatDataPayload = {
-    [Types.ADD_FAT_IMG] : Fat12FileSystem;
+    [Types.ADD_FAT_IMG] : ImgDescriptor;
     [Types.MODIFIED_FAT_IMAGE] : Fat12FileSystem;
   }
   
   export type FatDataActions = ActionMap<FatDataPayload>[keyof ActionMap<FatDataPayload>];
   
-  export const productReducer = (state: Fat12FileSystem[], action: FatDataActions ) => {
+  export const productReducer = (state: ImgDescriptor, action: FatDataActions ) => {
     switch (action.type) {
       
       case Types.ADD_FAT_IMG:
-        return [
-            action.payload
-        ]
+        return {
+          ...state,
+          name: action.payload.name,
+          imgs: action.payload.imgs
+        }
       case Types.MODIFIED_FAT_IMAGE:
-        return [action.payload]
+        return {
+          ...state,
+          imgs: [action.payload]
+        }
       
       default:
         return state;
@@ -58,8 +66,6 @@ type ActionMap<M extends { [index: string]: any }> = {
   
   export const shoppingCartReducer = (state: number, action: FatDataActions | ShoppingCartActions) => {
     switch (action.type) {
-      case Types.ADD_FAT_IMG:
-        return state + 1;
       default:
         return state;
     }

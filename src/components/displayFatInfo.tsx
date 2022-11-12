@@ -15,10 +15,10 @@ const DisplayFatInfo: React.FC = () => {
 
 
     async function downloadImage(file:FatFiles){
-        if(state.fd.length > 0)
+        if(state.fd.imgs.length > 0)
         {
             console.log(state.fd)
-            let fd = state.fd[0];
+            let fd = state.fd.imgs[0];
             let fileData = GetSigleFatFile(fd.fTables, file, fd.dataSection, fd.rSection.numBytesCluster());
             console.log(fileData)
             let bytesAsBlob = new Blob
@@ -36,15 +36,15 @@ const DisplayFatInfo: React.FC = () => {
     }
 
     function deleteFile(file:FatFiles){
-        state.fd[0].deleteFatFile(file);
+        state.fd.imgs[0].deleteFatFile(file);
         dispatch({
-            type: Types.ADD_FAT_IMG,
-            payload : state.fd[0]
+            type: Types.MODIFIED_FAT_IMAGE,
+            payload : state.fd.imgs[0]
         });
     }
 
     function generateImgFile(){
-        GenerateImgFile(state.fd[0])
+        GenerateImgFile(state.fd.name,state.fd.imgs[0])
     }
 
     function fDate(date:Date) {
@@ -70,11 +70,13 @@ const DisplayFatInfo: React.FC = () => {
     
     
 
-    let files = state.fd[0].rootDir;
+    let files = state.fd.imgs[0].rootDir;
     return (
         <div>
+            
             <button onClick={generateImgFile}>Generate a bin image</button>
-            <p>Data used {state.fd[0].calculateUsedSpace()} / {state.fd[0].rSection.numBytesDisk()} B </p>
+            <p></p>
+            <p>{state.fd.name}  {"["}{state.fd.imgs[0].calculateUsedSpace()} / {state.fd.imgs[0].rSection.numBytesDisk()}{"]"} B </p>
             <input type="file" id="inputImage" onChange={addFile}/>
 
             <table className="styled-table">

@@ -26,7 +26,7 @@ const PageBody: React.FC = () => {
             }
             
             <div>
-                {state.fd.length > 0 && 
+                {state.fd.imgs.length > 0 && 
                 <DisplayFatInfo></DisplayFatInfo>
                 }
             </div>

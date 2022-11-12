@@ -1,16 +1,15 @@
 /*context.tsx*/
 
 import React, { createContext, useReducer, Children } from 'react';
-import { productReducer, shoppingCartReducer } from './reducers';
+import { productReducer, shoppingCartReducer, ImgDescriptor,InitialStateType } from './reducers';
 import { Fat12FileSystem } from "./lib/Fat12FileSystem";
 
-type InitialStateType = {
-  fd: Fat12FileSystem[];
-  shoppingCart: number;
-}
 
 const initialState = {
-  fd: [],
+  fd: {
+    name:"",
+    imgs:[]
+  },
   shoppingCart: 0,
 }
 
