@@ -77,8 +77,14 @@ const DisplayFatInfo: React.FC = () => {
             <button onClick={generateImgFile}>Generate a bin image</button>
             <p></p>
             <p>{state.fd.name}  {"["}{state.fd.imgs[0].calculateUsedSpace()} / {state.fd.imgs[0].rSection.numBytesDisk()}{"]"} B </p>
-            <input type="file" id="inputImage" onChange={addFile}/>
-
+            <div>
+                <span>add a file</span>
+                
+                <label className="custom-file-upload">
+                    <input type="file" id="inputImage" onChange={addFile}/>
+                    <i className="fa fa-cloud-upload"></i> add file
+                </label>
+            </div>
             <table className="styled-table">
                 <thead>
                     <tr>

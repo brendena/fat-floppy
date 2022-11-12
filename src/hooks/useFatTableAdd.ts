@@ -1,6 +1,6 @@
 import { Fat12FileSystem } from "../lib/Fat12FileSystem"
 import React from 'react';
-
+import { CreateFat12Image } from "../lib/CreateFat12Image";
 import { Types } from "../reducers";
 import { AppContext } from "../context";
 
@@ -60,7 +60,6 @@ export function useFatTableAddFile(){
         
         let dataBuffer = await getFileBuffer(event.target.files);
         
-        //console.log(dataBuffer);
         if(dataBuffer.byteLength > 0)
         {
             let file = event.target.files[0];
@@ -69,7 +68,23 @@ export function useFatTableAddFile(){
                 type: Types.MODIFIED_FAT_IMAGE,
                 payload : state.fd.imgs[0]
             });
-            
         }
+    }
+}
+
+export function useGenerateFatImg(){
+    const {state, dispatch} = React.useContext(AppContext);
+    return async function(name:string,size:number){
+        
+        let fatImg =  CreateFat12Image(size);
+        console.log(fatImg)
+        dispatch({
+            type: Types.ADD_FAT_IMG,
+            payload : {
+                name:name,
+                imgs:[fatImg]
+            }   
+        });
+    
     }
 }

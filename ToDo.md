@@ -1,10 +1,9 @@
 Things to do
-* The Full fileName - require modifing (reducer and context)
 * Generating a new disk image
 
 
 * cool to have tables that you can switch the order of the rows
-
+* cool to have the name work with other system
 
 
 

@@ -2,7 +2,7 @@ export const FAT_END_FILE = 0xfff
 
 
 export class FatTable{
-    constructor(buffer : any){
+    constructor(buffer : Uint8Array){
       if(buffer.length == 0)
       {
         return;

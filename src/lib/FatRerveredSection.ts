@@ -1,4 +1,8 @@
 import {littleEndianToNumber, toHexString, U8ToString} from "./FatSupport"
+
+export const FILE_SYS_TYPE = "FAT12   " ;
+
+
 //Based on this guy's table
 //http://elm-chan.org/docs/fat_e.html
 //bpb - BIOS Paramter Block
@@ -62,7 +66,7 @@ export class FatReservedSection{
     bs_volLab: Uint8Array = new Uint8Array(11)    // size 11
     bs_fileSysType: string = ""    // size 8
     bs_cootCode: Uint8Array = new Uint8Array(448)     // size 448
-    bs_bootSign: Uint8Array = new Uint8Array(2)      // size 2
+    bs_bootSign: Uint8Array = new Uint8Array([0xAA,0x55])      // size 2
 
     numBytesFatTable(){
       return this.bpb_FATz16 * this.bpb_bytesPerSector;

@@ -5,6 +5,7 @@ import { memcpySplice } from "./memoryHelpers";
 
 export class Fat12FileSystem{
     constructor(buffer : Uint8Array){
+        if(buffer.length == 0) return;
         if(buffer.length < 2048)
         {
           console.log("something probably wrong with your input buffer")
@@ -43,6 +44,7 @@ export class Fat12FileSystem{
         let dataStartPosition = this.rSection.calculateDataSection();
         this.dataSection = buffer.slice(dataStartPosition, buffer.length - dataStartPosition);
         //this.rootDir.forEach((dir)=>{dir.print()})
+        console.log(this);
         
     }
 
