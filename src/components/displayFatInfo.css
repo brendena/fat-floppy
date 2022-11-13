@@ -36,3 +36,14 @@
     font-weight: bold;
     color: #009879;
 }
+
+
+#tableGenerated{
+    padding-bottom: 50px;
+    border: dashed;
+    border-width: 20px;
+    border-color:#009879;
+    background:white;
+    flex-grow:1;
+}
+

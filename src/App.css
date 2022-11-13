@@ -1,7 +1,10 @@
 .App {
   text-align: center;
-  background: white;
   min-height: 100vh;
+  background: #404040;
+  display:flex;
+  flex-direction: column;
+  
 }
 
 h1{
@@ -11,9 +14,13 @@ h1{
 input[type="file"] {
   display: none;
 }
-.custom-file-upload {
+.fancyButton {
   border: 1px solid #ccc;
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
+  font-size: 30px;
+  margin: 10px;
+  background:#ffa800;
+  border:0;
 }

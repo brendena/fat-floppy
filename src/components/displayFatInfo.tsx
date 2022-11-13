@@ -72,15 +72,15 @@ const DisplayFatInfo: React.FC = () => {
 
     let files = state.fd.imgs[0].rootDir;
     return (
-        <div>
+        <div id="tableGenerated">
             
             <button onClick={generateImgFile}>Generate a bin image</button>
             <p></p>
-            <p>{state.fd.name}  {"["}{state.fd.imgs[0].calculateUsedSpace()} / {state.fd.imgs[0].rSection.numBytesDisk()}{"]"} B </p>
+            <p>{state.fd.name}  {"["}{numberWithCommas(state.fd.imgs[0].calculateUsedSpace())} / {numberWithCommas(state.fd.imgs[0].rSection.numBytesDisk())}{"]"} B </p>
             <div>
                 <span>add a file</span>
                 
-                <label className="custom-file-upload">
+                <label className="fancyButton">
                     <input type="file" id="inputImage" onChange={addFile}/>
                     <i className="fa fa-cloud-upload"></i> add file
                 </label>
@@ -97,8 +97,8 @@ const DisplayFatInfo: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody >
-                    {
-                        files.map((f:FatFiles, i:number )=>{
+                {
+                    files.map((f:FatFiles, i:number )=>{
 
                     return <tr key={i}> 
                                 <td>{f.name}.{f.ext}</td>
@@ -109,7 +109,7 @@ const DisplayFatInfo: React.FC = () => {
                                 <td><button onClick={()=>{deleteFile(f)}}>delete</button></td>
                             </tr>
                     })
-                    }
+                }
                 </tbody>
             </table>
         </div>

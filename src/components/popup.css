@@ -1,12 +1,23 @@
 .popup {
     margin: auto;
     background: rgb(255, 255, 255);
-    width: 50%;
     padding: 5px;
     position:fixed;
     top:0px;
     z-index: 100;
-    left: 25%;
     border:solid;
     top:15%;
   }
+
+#popupWrapper{
+  position:fixed;
+  z-index: 100;
+  width:100vw;
+  height:100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top:0px;
+  left:0px;
+  background:#0000006e;
+}

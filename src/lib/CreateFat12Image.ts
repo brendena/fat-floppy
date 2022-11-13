@@ -14,7 +14,7 @@ export function CreateFat12Image(imageSize:number){
     fatSystem.rSection.bpb_rootEntCnt = (16 * 7);// might want to change
     fatSystem.rSection.bpb_totalSec16 = imageSize / 512;
     fatSystem.rSection.bpb_media = 253;
-    fatSystem.rSection.bpb_FATz16 = 1 //might change size of the fat tables
+    fatSystem.rSection.bpb_FATz16 = Math.ceil((fatSystem.rSection.bpb_totalSec16 / fatSystem.rSection.bpb_secPerClus) / (512 / (1.5))) //ruff estimate number fat needed
     fatSystem.rSection.bpb_secPerTrack = 8;
     fatSystem.rSection.bpb_numHeads = 1;
     fatSystem.rSection.bpb_hiddSec = 0
