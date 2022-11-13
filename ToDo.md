@@ -1,9 +1,8 @@
 Things to do
 
 Make this look good
-* make popup, create a backdrop
-* popup should close when you create img
 * drag and drop a file anywhere on the page
+* the font scaling is really bad and currently it's really small
 
 Problem
 * problem with the time of date conversion

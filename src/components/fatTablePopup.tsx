@@ -2,6 +2,8 @@ import React, {useState, useContext} from 'react';
 import { useFatTableAdd } from '../hooks/useFatTableAdd';
 import { AppContext } from "../context";
 import { useGenerateFatImg } from '../hooks/useFatTableAdd';
+import { emitCustomEvent } from 'react-custom-events'
+
 interface FileSizeDescriptor{
     name:string,
     bytes:number
@@ -64,7 +66,9 @@ const FatTablePopup: React.FC = () => {
     const [floppyName, setSloppyName] = useState("imgName");
     const generateFat = useGenerateFatImg();
     let createFatSystem = function(){
-        generateFat(floppyName,sizeFloppy)
+        generateFat(floppyName,sizeFloppy);
+        emitCustomEvent('popup-close')
+        
     }
     let changedtest = function(size:number)
     {

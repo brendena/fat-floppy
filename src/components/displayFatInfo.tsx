@@ -74,13 +74,13 @@ const DisplayFatInfo: React.FC = () => {
     return (
         <div id="tableGenerated">
             
-            <button onClick={generateImgFile}>Generate a bin image</button>
+            <button onClick={generateImgFile} className="fancyButton text-size-button">Generate a image file</button>
             <p></p>
             <p>{state.fd.name}  {"["}{numberWithCommas(state.fd.imgs[0].calculateUsedSpace())} / {numberWithCommas(state.fd.imgs[0].rSection.numBytesDisk())}{"]"} B </p>
             <div>
                 <span>add a file</span>
                 
-                <label className="fancyButton">
+                <label className="fancyButton text-size-button">
                     <input type="file" id="inputImage" onChange={addFile}/>
                     <i className="fa fa-cloud-upload"></i> add file
                 </label>
@@ -105,8 +105,8 @@ const DisplayFatInfo: React.FC = () => {
                                 <td>{numberWithCommas(f.size)} B</td>
                                 <td>{fDate(f.creationDate)}</td>
                                 <td>{fDate(f.lastAccessDate)}</td>
-                                <td><button onClick={()=>{downloadImage(f)}}>Download</button></td>
-                                <td><button onClick={()=>{deleteFile(f)}}>delete</button></td>
+                                <td><img className="faIcon" src="download-solid.svg"  onClick={()=>{downloadImage(f)}}/></td>
+                                <td><img className="faIcon" src="trash-solid.svg" onClick={()=>{deleteFile(f)}} /> </td>
                             </tr>
                     })
                 }

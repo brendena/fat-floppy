@@ -44,6 +44,16 @@
     border-width: 20px;
     border-color:#009879;
     background:white;
-    flex-grow:1;
+    flex-grow:2;
+    font-size:1.5rem;
+    overflow: auto;
+    max-height: calc(100vh - 90px);
 }
 
+.text-size-button{
+    font-size:20px;
+}
+
+.faIcon{
+    width:30px;
+}
