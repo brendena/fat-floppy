@@ -1,6 +1,4 @@
-import React, {useState, useContext} from 'react';
-import { useFatTableAdd } from '../hooks/useFatTableAdd';
-import { AppContext } from "../context";
+import React, {useState} from 'react';
 import { useGenerateFatImg } from '../hooks/useFatTableAdd';
 import { emitCustomEvent } from 'react-custom-events'
 
@@ -61,12 +59,11 @@ const fileSizes : Array<FileSizeDescriptor> = [
 ]
 
 const FatTablePopup: React.FC = () => {  
-    const {state} = useContext(AppContext);
     const [sizeFloppy, setSizeFloppy] = useState(fileSizes[3].bytes);
     const [floppyName, setSloppyName] = useState("imgName");
     const generateFat = useGenerateFatImg();
     let createFatSystem = function(){
-        generateFat(floppyName,sizeFloppy);
+        generateFat(floppyName + ".IMG",sizeFloppy);
         emitCustomEvent('popup-close')
         
     }
@@ -86,7 +83,7 @@ const FatTablePopup: React.FC = () => {
             {
                 fileSizes.map((f:FileSizeDescriptor, i:number )=>{
                    return   <div key={i}>
-                                <input checked={sizeFloppy == f.bytes}  id={f.bytes.toString()} type="radio" value={f.bytes} name="fileSize" onChange={()=>{changedtest(f.bytes)}}/>
+                                <input checked={sizeFloppy === f.bytes}  id={f.bytes.toString()} type="radio" value={f.bytes} name="fileSize" onChange={()=>{changedtest(f.bytes)}}/>
                                 <label htmlFor={f.bytes.toString()}>{f.name}</label>
                             </div>
                 })

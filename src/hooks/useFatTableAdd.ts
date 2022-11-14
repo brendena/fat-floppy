@@ -63,21 +63,22 @@ export function useFatTableAddFile(){
         if(dataBuffer.byteLength > 0)
         {
             let file = event.target.files[0];
-            state.fd.imgs[0].addFile(file.name, dataBuffer, new Date());
-            dispatch({
-                type: Types.MODIFIED_FAT_IMAGE,
-                payload : state.fd.imgs[0]
-            });
+            let addedFile = state.fd.imgs[0].addFile(file.name, dataBuffer, new Date());
+            if(addedFile === true){
+                dispatch({
+                    type: Types.MODIFIED_FAT_IMAGE,
+                    payload : state.fd.imgs[0]
+                });
+            }
         }
     }
 }
 
 export function useGenerateFatImg(){
-    const {state, dispatch} = React.useContext(AppContext);
+    const {dispatch} = React.useContext(AppContext);
     return async function(name:string,size:number){
         
         let fatImg =  CreateFat12Image(size);
-        console.log(fatImg)
         dispatch({
             type: Types.ADD_FAT_IMG,
             payload : {

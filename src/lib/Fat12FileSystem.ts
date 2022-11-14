@@ -5,7 +5,7 @@ import { memcpySplice } from "./memoryHelpers";
 
 export class Fat12FileSystem{
     constructor(buffer : Uint8Array){
-        if(buffer.length == 0) return;
+        if(buffer.length === 0) return;
         if(buffer.length < 2048)
         {
           console.log("something probably wrong with your input buffer")
@@ -13,7 +13,7 @@ export class Fat12FileSystem{
         }
         //parse the reserve section
         this.rSection = new FatReservedSection(buffer);
-        if(this.rSection.bpb_bytesPerSector != 512){
+        if(this.rSection.bpb_bytesPerSector !== 512){
           console.log("something wrong? the bytes per sector is not 512")
           return;
         }
@@ -94,12 +94,15 @@ export class Fat12FileSystem{
       //figure out how much free space there is
       if(data.length > this.calculateFreeSpace()){
         console.warn("File is to large")
+        return false;
       }
 
       let firstCluster = this.fTables[0].allocateFirstFreeSector();
       let clusterWrighten = firstCluster;
       let clusterSize = this.rSection.numBytesCluster();
-      for(let writtenData = 0; writtenData < data.length; writtenData += this.rSection.numBytesCluster())
+      console.log(firstCluster)
+      console.log(clusterSize)
+      for(let writtenData = 0; writtenData < data.length; writtenData += clusterSize)
       {
         let nextClusterToWrite = 0;
         let sizeToWright = clusterSize
@@ -130,7 +133,7 @@ export class Fat12FileSystem{
       newFile.size = data.length;
       newFile.startCluster = firstCluster;
       this.rootDir.push(newFile);
-
+      return true;
     }
     calculateUsedSpace(){
       let dataSectionUsed = this.fTables[0].clusterUsed()  * this.rSection.bpb_secPerClus * this.rSection.bpb_bytesPerSector;

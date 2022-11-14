@@ -30,7 +30,7 @@ export function CreateFat12Image(imageSize:number){
     for(let i =0; i < fatSystem.rSection.bpb_numFats; i++)
     {
         let fatTable = new FatTable(new Uint8Array());
-        fatTable.a = new Array(Math.floor(fatSystem.rSection.numBytesFatTable() * (2/3)) + 1);
+        fatTable.a = new Array(Math.floor(fatSystem.rSection.numBytesFatTable() * (2/3)) + 1).fill(0);
         fatTable.a[0] = 0xFFD;
         fatTable.a[1] = 0xFFF;
         fatSystem.fTables.push(fatTable);

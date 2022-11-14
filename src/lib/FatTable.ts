@@ -3,7 +3,7 @@ export const FAT_END_FILE = 0xfff
 
 export class FatTable{
     constructor(buffer : Uint8Array){
-      if(buffer.length == 0)
+      if(buffer.length === 0)
       {
         return;
       }
@@ -30,7 +30,7 @@ export class FatTable{
     firstFreeSector(){
       let ret = 0;
       for(let i =0; i < this.a.length; i++){
-        if(this.a[i] == 0){
+        if(this.a[i] === 0){
           ret = i;
           break;
         }

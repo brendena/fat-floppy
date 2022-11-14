@@ -105,8 +105,8 @@ const DisplayFatInfo: React.FC = () => {
                                 <td>{numberWithCommas(f.size)} B</td>
                                 <td>{fDate(f.creationDate)}</td>
                                 <td>{fDate(f.lastAccessDate)}</td>
-                                <td><img className="faIcon" src="download-solid.svg"  onClick={()=>{downloadImage(f)}}/></td>
-                                <td><img className="faIcon" src="trash-solid.svg" onClick={()=>{deleteFile(f)}} /> </td>
+                                <td><img className="faIcon" src="download-solid.svg" alt="downloadIcon" onClick={()=>{downloadImage(f)}}/></td>
+                                <td><img className="faIcon" src="trash-solid.svg" alt="deleteIcon" onClick={()=>{deleteFile(f)}} /> </td>
                             </tr>
                     })
                 }

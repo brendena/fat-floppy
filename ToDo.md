@@ -3,9 +3,8 @@ Things to do
 Make this look good
 * drag and drop a file anywhere on the page
 
-Problem
+Bug
 * problem with the time of date conversion
-
 
 
 Features to add
