@@ -104,24 +104,33 @@ export class Fat12FileSystem{
       console.log(clusterSize)
       for(let writtenData = 0; writtenData < data.length; writtenData += clusterSize)
       {
+        
         let nextClusterToWrite = 0;
         let sizeToWright = clusterSize
         if(writtenData + clusterSize < data.length){
           nextClusterToWrite = this.fTables[0].allocateFirstFreeSector();
-          this.fTables[0].a[clusterWrighten] = nextClusterToWrite;
+
+          for(let i =0; i < this.fTables.length; i++){
+            this.fTables[i].a[clusterWrighten] = nextClusterToWrite;
+          }
         }else{
           sizeToWright = data.length - writtenData;
         }
         
-        let startClusterByte = clusterSize * (nextClusterToWrite - 2);
+        let startClusterByte = clusterSize * (clusterWrighten - 2);
         memcpySplice(this.dataSection,
                      startClusterByte,
                      data,
                      writtenData,
                      sizeToWright);
-        clusterWrighten = nextClusterToWrite
+        console.log(writtenData);
+        console.log(startClusterByte);
+        clusterWrighten = nextClusterToWrite;
+
         
       }
+      console.log(this.dataSection)
+      console.log(data)
       //add the directory here
 
       let newFile = new FatFiles();

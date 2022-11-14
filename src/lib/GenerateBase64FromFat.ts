@@ -1,3 +1,4 @@
+import cluster from "cluster";
 import { FatFiles } from "./FatFiles";
 import { FatTable, FAT_END_FILE } from "./FatTable";
 
@@ -26,11 +27,14 @@ export function GetSigleFatFile(
     let clusterIndex = fatFile.startCluster;
     for(let i =0; i < (Math.floor(fatFile.size / clusterSize)); i++)
     {
+        console.log(clusterIndex)
         let startClusterByte = clusterSize * (clusterIndex - 2);
         returnData = _appendBuffer(returnData, data.slice(startClusterByte, startClusterByte + clusterSize));
-
+        console.log(returnData);
+        console.log(data.slice(startClusterByte, startClusterByte + clusterSize))
         clusterIndex = fatTables[0].a[clusterIndex];
     }
+    console.log(clusterIndex)
     //grab the half cluster sizes
     let startClusterByte = clusterSize * (clusterIndex - 2);
     returnData = _appendBuffer(returnData, data.slice(startClusterByte, startClusterByte + fatFile.size %clusterSize));

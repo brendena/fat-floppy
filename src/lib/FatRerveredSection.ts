@@ -49,7 +49,7 @@ export class FatReservedSection{
     bs_oemName: String    = ""     // size 8
     bpb_bytesPerSector: number  = 0// size 2
     bpb_secPerClus: number      = 0// size 1
-    bpb_rsvdSecCnt: number      = 0// size 2
+    bpb_rsvdSecCnt: number      = 1// size 2
     bpb_numFats:number          = 0// size 1
     bpb_rootEntCnt:number       = 0// size 2
     bpb_totalSec16:number       = 0// size 2
@@ -63,7 +63,7 @@ export class FatReservedSection{
     bs_reserved: number         = 0// size 1
     bs_bootSig: number          = 0// size 1
     bs_volID: number            = 0// size 4
-    bs_volLab: Uint8Array = new Uint8Array(11)    // size 11
+    bs_volLab: Uint8Array = new Uint8Array([0x4e,0x4f,0x20,0x4e,0x41,0x4d,0x45,0x20,0x20,0x20,0x20])    // size 11 //Defaults to "NO name"
     bs_fileSysType: string = ""    // size 8
     bs_cootCode: Uint8Array = new Uint8Array(448)     // size 448
     bs_bootSign: Uint8Array = new Uint8Array([0xAA,0x55])      // size 2

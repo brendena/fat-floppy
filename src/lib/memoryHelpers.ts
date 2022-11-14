@@ -1,8 +1,10 @@
 export function memcpySplice (_dst : Uint8Array, dstOffset: number, _src:Uint8Array, srcOffset: number,numberBytes:number) {
     
-    for(let i =srcOffset; i < (srcOffset + numberBytes);i++)
+    let newDstOffset = dstOffset;
+    for( let newSrcOffset =srcOffset; newSrcOffset < (srcOffset + numberBytes);newSrcOffset++)
     {
-        _dst[i + dstOffset] = _src[i];
+        _dst[newDstOffset] = _src[newSrcOffset];
+        newDstOffset++;
     }
 }
 
