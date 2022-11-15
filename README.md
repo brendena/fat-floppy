@@ -1,5 +1,5 @@
 # Create fat12 images with fat floppy 
-## [on the web](fatfloppy.com)
+## [on the web](https://fatfloppy.com)
 
 
 ### fun test
