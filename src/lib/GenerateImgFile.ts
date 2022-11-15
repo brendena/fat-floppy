@@ -48,7 +48,7 @@ export function convertFatTableSection(ft:Array<FatTable>,a:Uint8Array)
             a[++offset] = secondPart;
             a[++offset] = thrirdPart;
         }
-        --offset;//512 doesn't go into sets of 3 
+        offset = offset - (offset %512) -1;
     }
 }
 

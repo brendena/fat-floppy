@@ -6,6 +6,8 @@ Make this look good
 Bug
 * problem with the time of date conversion
 
+Reference most things fat
+* [site](http://elm-chan.org/docs/fat_e.html)
 
 Features to add
 * cool to have tables that you can switch the order of the rows

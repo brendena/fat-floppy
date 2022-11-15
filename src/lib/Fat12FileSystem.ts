@@ -98,6 +98,8 @@ export class Fat12FileSystem{
       }
 
       let firstCluster = this.fTables[0].allocateFirstFreeSector();
+      for(let i =0;i < this.fTables.length; i++){this.fTables[i].a[firstCluster] = 0xfff;}
+
       let clusterWrighten = firstCluster;
       let clusterSize = this.rSection.numBytesCluster();
       console.log(firstCluster)
@@ -109,6 +111,7 @@ export class Fat12FileSystem{
         let sizeToWright = clusterSize
         if(writtenData + clusterSize < data.length){
           nextClusterToWrite = this.fTables[0].allocateFirstFreeSector();
+          for(let i =0;i < this.fTables.length; i++){this.fTables[i].a[nextClusterToWrite] = 0xfff;}
 
           for(let i =0; i < this.fTables.length; i++){
             this.fTables[i].a[clusterWrighten] = nextClusterToWrite;
@@ -129,8 +132,6 @@ export class Fat12FileSystem{
 
         
       }
-      console.log(this.dataSection)
-      console.log(data)
       //add the directory here
 
       let newFile = new FatFiles();

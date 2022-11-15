@@ -76,7 +76,7 @@ const DisplayFatInfo: React.FC = () => {
             
             <button onClick={generateImgFile} className="fancyButton text-size-button">Generate a image file</button>
             <p></p>
-            <p>{state.fd.name}  {"["}{numberWithCommas(state.fd.imgs[0].calculateUsedSpace())} / {numberWithCommas(state.fd.imgs[0].rSection.numBytesDisk())}{"]"} B </p>
+            <p>{state.fd.name}  {"["}{numberWithCommas(state.fd.imgs[0].calculateUsedSpace())} / {numberWithCommas(state.fd.imgs[0].rSection.numBytesDisk())}{"]"} B used</p>
             <div>
                 <span>add a file</span>
                 

@@ -76,9 +76,11 @@ export function useFatTableAddFile(){
 
 export function useGenerateFatImg(){
     const {dispatch} = React.useContext(AppContext);
-    return async function(name:string,size:number){
+    return async function(name:string,size:number, secPerTrack:number,numHeads:number){
         
         let fatImg =  CreateFat12Image(size);
+        fatImg.rSection.bpb_secPerTrack = secPerTrack;
+        fatImg.rSection.bpb_numHeads = numHeads;
         dispatch({
             type: Types.ADD_FAT_IMG,
             payload : {

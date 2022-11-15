@@ -4,7 +4,9 @@ import { emitCustomEvent } from 'react-custom-events'
 
 interface FileSizeDescriptor{
     name:string,
-    bytes:number
+    bytes:number,
+    secPerTrack:number,
+    numHeads:number,
 }
 
 /*
@@ -26,50 +28,66 @@ DMF cluster 2048
 const fileSizes : Array<FileSizeDescriptor> = [
     {
         name:"160 KB",
-        bytes: 163840
+        bytes: 163840,
+        secPerTrack: 8,
+        numHeads:1
     },
     {
         name:"180 KB",
-        bytes: 184320
+        bytes: 184320,
+        secPerTrack: 9,
+        numHeads:1
     },
     {
         name:"320 KB",
-        bytes: 327680
+        bytes: 327680,
+        secPerTrack: 8,
+        numHeads:2
     },
     {
         name:"360 KB",
-        bytes: 368640
+        bytes: 368640,
+        secPerTrack: 9,
+        numHeads:2
     },
     {
         name:"720 KB",
-        bytes: 737280
+        bytes: 737280,
+        secPerTrack: 9,
+        numHeads:2
     },
     {
         name:"1.2 MB",
-        bytes: 1228800
+        bytes: 1228800,
+        secPerTrack: 0xf,
+        numHeads:2
     },
     {
         name:"1.44 MB",
-        bytes: 1474560
+        bytes: 1474560,
+        secPerTrack: 0x12,
+        numHeads:2
     },
     {
         name:"2.88 MB",
-        bytes: 2949120
+        bytes: 2949120,
+        secPerTrack: 0x24,
+        numHeads:2
     }
 ]
 
 const FatTablePopup: React.FC = () => {  
-    const [sizeFloppy, setSizeFloppy] = useState(fileSizes[3].bytes);
+    const [floppyType, setFloppyType] = useState(fileSizes[3]);
     const [floppyName, setSloppyName] = useState("imgName");
     const generateFat = useGenerateFatImg();
     let createFatSystem = function(){
-        generateFat(floppyName + ".IMG",sizeFloppy);
+        generateFat(floppyName + ".IMG",floppyType.bytes, floppyType.secPerTrack, floppyType.numHeads);
         emitCustomEvent('popup-close')
         
     }
-    let changedtest = function(size:number)
+    let changedtest = function(f:FileSizeDescriptor)
     {
-        setSizeFloppy(size);
+        setFloppyType(f);
     }
     let changeName = function(event:any){
         setSloppyName(event.target.value)
@@ -83,7 +101,7 @@ const FatTablePopup: React.FC = () => {
             {
                 fileSizes.map((f:FileSizeDescriptor, i:number )=>{
                    return   <div key={i}>
-                                <input checked={sizeFloppy === f.bytes}  id={f.bytes.toString()} type="radio" value={f.bytes} name="fileSize" onChange={()=>{changedtest(f.bytes)}}/>
+                                <input checked={floppyType.bytes === f.bytes}  id={f.bytes.toString()} type="radio" value={f.bytes} name="fileSize" onChange={()=>{changedtest(f)}}/>
                                 <label htmlFor={f.bytes.toString()}>{f.name}</label>
                             </div>
                 })
