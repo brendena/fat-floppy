@@ -1,8 +1,8 @@
 # Create fat12 images with fat floppy 
-## [on the web](www.fatfloppy.com)
+## [on the web](fatfloppy.com)
 
 
-### funt test
+### fun test
 * [ibm 5150 emulator](https://www.pcjs.org/software/pcx86/dev/rom/ibm/5150/)
 * [cmp] (https://linux.die.net/man/1/cmp)
 
